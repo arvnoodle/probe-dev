@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "probe-inspect"
-version = "1.0.0"
+version = "1.1.0"
 description = "A one-call inspection print for ML research — tensor shapes, stats, NaN detection, Jupyter cell-local lines."
 readme = "README.md"
 license = "MIT"
@@ -35,4 +35,4 @@ Repository = "https://github.com/arvnoodle/probe-dev"
 Issues = "https://github.com/arvnoodle/probe-dev/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["probe"]
+packages = ["probe_inspect"]

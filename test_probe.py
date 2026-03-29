@@ -1,11 +1,12 @@
 """Tests for probe — covers scalars, collections, tensors, config, and output."""
 
 import io
+import re
 import sys
 import pytest
 import numpy as np
 
-from probe import probe, probe_config, ProbeConfig
+from probe_inspect import probe, pb, probe_config, ProbeConfig
 
 
 @pytest.fixture(autouse=True)
@@ -252,8 +253,6 @@ class TestLocation:
 
 # ─── Edge Cases ──────────────────────────────────────────────────────────────
 
-import re
-
 class TestEdgeCases:
     def test_long_string(self, _capture_to_buffer):
         probe("a" * 500)
@@ -285,6 +284,46 @@ class TestEdgeCases:
         x = np.array([float("nan"), float("nan")])
         probe(x)
         assert "all NaN/Inf!" in last_line(_capture_to_buffer)
+
+
+# ─── pb alias ────────────────────────────────────────────────────────────────
+
+class TestPbAlias:
+    def test_pb_is_probe(self):
+        assert pb is probe
+
+    def test_pb_works(self, _capture_to_buffer):
+        pb(42)
+        assert "42" in last_line(_capture_to_buffer)
+        assert "(int)" in last_line(_capture_to_buffer)
+
+    def test_pb_tensor(self, _capture_to_buffer):
+        x = np.ones((4, 8), dtype=np.float32)
+        pb(x)
+        out = last_line(_capture_to_buffer)
+        assert "float32" in out
+        assert "(4, 8)" in out
+
+    def test_pb_returns_value(self, _capture_to_buffer):
+        result = pb(42)
+        assert result == 42
+
+    def test_pb_watch(self, _capture_to_buffer):
+        @pb.watch
+        def add(a, b):
+            return a + b
+
+        result = add(3, 4)
+        assert result == 7
+        out = _capture_to_buffer.getvalue()
+        assert "add" in out
+        assert "called" in out
+
+    def test_pb_diff(self, _capture_to_buffer):
+        a = np.ones((4, 4), dtype=np.float32)
+        pb.diff(a, a)
+        out = _capture_to_buffer.getvalue()
+        assert "identical" in out
 
 
 # ─── @probe.watch Decorator ─────────────────────────────────────────────────

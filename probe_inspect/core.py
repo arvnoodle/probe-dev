@@ -131,8 +131,8 @@ def _get_call_info(stack_depth: int = 2):
 
 
 def _extract_arg_names(source_line: str) -> list[str]:
-    """Parse `probe(x, model.weight, 2+2)` → ['x', 'model.weight', '2+2']."""
-    match = re.search(r'\bprobe\s*\(', source_line)
+    """Parse `probe(x, model.weight, 2+2)` or `pb(x, ...)` → ['x', 'model.weight', '2+2']."""
+    match = re.search(r'\b(?:probe|pb)\s*\(', source_line)
     if not match:
         return []
 
