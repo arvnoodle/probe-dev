@@ -23,7 +23,7 @@ jobs:
           pip install -e ".[dev]"
       - name: Test
         run: |
-          pytest tests/ -v
+          pytest -v
 
   publish:
     needs: test

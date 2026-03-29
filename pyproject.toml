@@ -11,7 +11,7 @@ license = "MIT"
 requires-python = ">=3.10"
 keywords = ["research", "tensor", "inspect", "pytorch", "numpy", "jax", "jupyter", "ml", "deep-learning"]
 authors = [
-    { name = "Your Name", email = "you@example.com" },
+    { name = "arvnoodle", email = "arvinmapua2012@gmail.com" },
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -30,9 +30,9 @@ classifiers = [
 dev = ["pytest>=7.0", "numpy>=1.24"]
 
 [project.urls]
-Homepage = "https://github.com/youruser/probe"
-Repository = "https://github.com/youruser/probe"
-Issues = "https://github.com/youruser/probe/issues"
+Homepage = "https://github.com/arvnoodle/probe-dev"
+Repository = "https://github.com/arvnoodle/probe-dev"
+Issues = "https://github.com/arvnoodle/probe-dev/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["probe"]
